@@ -1,18 +1,12 @@
 #include <Encoder.h>
 Encoder myEnc(39, 3);
 
-#define ADC_PIN 3
-#define PWM_PIN 7
-
-#define INITIAL_DELAY 10000
-
-unsigned long initial_time = 0;
 long oldPosition  = -999;
 
 /* PARAMETERS */
-#define MINSPEED 100
-#define MINACCELERATION 100
-#define SHORT_DURATION 10000UL //(500 * 16) * 1); // ==> 200 for the stepper's original steps/revolution, 16 is the microsteps and 1 is the number of turns
+#define MINSPEED 1000
+#define MINACCELERATION 1000
+#define SHORT_DURATION 8000UL //(500 * 16) * 1); // ==> 200 for the stepper's original steps/revolution, 16 is the microsteps and 1 is the number of turns
 /* END PARAMETERS */
 
 /* PINS */
@@ -64,46 +58,34 @@ void setup_motor_params(){
 }
 
 void setup() {
-  Serial.begin(128000);
-  Serial.println("CLEARDATA");
-  Serial.println("CLEARDATA");
-  Serial.println("LABEL,Time,Start Time,Distance sensor Value,Encoder Value");
-  Serial.println("RESETTIMER");
-  pinMode(ADC_PIN, INPUT);
-  pinMode(PWM_PIN, OUTPUT);
-  analogReadResolution(12);
-  
-  analogWrite(PWM_PIN, 255);
+  Serial.begin(115200);
+//  Serial.println("CLEARDATA");
+//  Serial.println("CLEARDATA");
+//  Serial.println("LABEL,Time,Start Time,Encoder Value");
+//  Serial.println("RESETTIMER");
 
-  initial_time = millis();
   pinMode(EN_PIN, OUTPUT);
   pinMode(STEP_PIN, OUTPUT);
 
   setup_driver();
   setup_motor_params();
-  
-  delay(10000);
 }
 
 void loop() {
-//    if( millis() - initial_time > INITIAL_DELAY ){ 
-    Serial.print("DATA,TIME,TIMER,");
-    Serial.print(analogRead(ADC_PIN)); Serial.print(",");
-    delay(1);
-//  }
-  
   long newPosition = myEnc.read();
-  
   if (newPosition != oldPosition) {
     oldPosition = newPosition;
-    Serial.println(newPosition);
-//    delay(3);
-
-    if(newPosition >= 70000){
+//    Serial.print("DATA,TIME,TIMER,");
+//    Serial.println(newPosition);
+    delay(3);
+    long pos = newPosition%1000;
+    if(pos == -1 || pos == 999){
       stepper.stop();
+      motor_direction = (Direction)(motor_direction * -1);
+      Serial.print("FLIP at: "); Serial.println(newPosition);
     }
   }
 
-  stepper.moveTo(-1* SHORT_DURATION);
+  stepper.moveTo((long)motor_direction * SHORT_DURATION);
   stepper.run();
 }
