@@ -1,10 +1,5 @@
 /*
-
 AD7193_VoltageMeasure_Example
-
-Configures and calibrates the AD7193 to measure differental voltage on AIN1 and AIN2
-
-Tutorial can be found at <TBD>, and uses the PmodAD5 from Digilent.
 
 Signal Connections:
 -----------------------------------------------------
@@ -17,7 +12,6 @@ Signal Connections:
   GND        |  J1, Pin 5   |  GND
   VCC (3.3V) |  J1, Pin 6   |  3.3V
 -----------------------------------------------------
-
 -----------------------------------
  Signal Name       |  PmodAD5 Pin    
 -----------------------------------
@@ -25,15 +19,6 @@ Signal Connections:
  Channel 1 Neg     |  J2, Pin 4
 -----------------------------------
 See Table 24 of AD7193 datasheet for more information
-
-Reference:
-https://reference.digilentinc.com/reference/pmod/pmodad5/start
-https://www.arduino.cc/en/Reference/SPI
-
-Created 4 Oct 2016
-by Anne Mahaffey
-
-This example code is in the public domain
 */
 
 #include <SPI.h>
@@ -67,7 +52,7 @@ void loop() {
   float ch1Voltage;
   ch1Voltage = AD7193.DataToVoltage(
     AD7193.ReadADCChannel(1) >> 8);
-  Serial.println(ch1Voltage, 4);  
+  Serial.println(ch1Voltage*10000, 2);  
    
-  delay(100);
+  delay(3);
 }
