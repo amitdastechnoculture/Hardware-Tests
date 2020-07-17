@@ -1,6 +1,6 @@
-@ -0,0 +1,16 @@
+//@ -0,0 +1,16 @@
 #include <Encoder.h>
-Encoder myEnc(39, 3);
+Encoder myEnc(4, 3);
 
 long oldPosition  = -999;
 

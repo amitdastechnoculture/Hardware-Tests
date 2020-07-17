@@ -20,6 +20,7 @@ Signal Connections:
 -----------------------------------
 See Table 24 of AD7193 datasheet for more information
 */
+#define DEBUG
 
 #include <SPI.h>
 #include <AD7193.h>
@@ -45,19 +46,25 @@ void setup() {
   analogWrite(PWM_PIN, 255);
   
   Init_AD7193();
+  #ifdef DEBUG
   Serial.begin(115200);
-   Serial.println("CLEARDATA");
+  #elif
+  Serial.begin(128000);
+  Serial.println("CLEARDATA");
   Serial.println("CLEARDATA");
   Serial.println("LABEL,Time,Start Time,Distance sensor Value");
   Serial.println("RESETTIMER");
+  #endif
 }
 
 void loop() {
   float ch1Voltage;
   ch1Voltage = AD7193.DataToVoltage(
-    AD7193.ReadADCChannel(1) >> 8);
+  AD7193.ReadADCChannel(1) >> 8);
+  #ifndef DEBUG
   Serial.print("DATA,TIME,TIMER,");
+  #endif
   Serial.println(ch1Voltage*10000, 2);  
    
-  delay(3);
+//  delay(3);
 }
