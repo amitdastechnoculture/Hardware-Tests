@@ -87,7 +87,11 @@ void setup()
   /* Mode: LOW | CHANGE | RISING | FALLING | HIGH */
   //pinMode(interruptPin, INPUT_PULLUP);
   //attachInterrupt(digitalPinToInterrupt(interruptPin), readADC, RISING);
-  Serial.begin(115200);
+  Serial.begin(128000);
+  Serial.println("CLEARDATA");
+  Serial.println("CLEARDATA");
+  Serial.println("LABEL,Time,Start Time,Photodiode Value");
+  Serial.println("RESETTIMER");
 
   pinMode(RESETZ, OUTPUT);
   pinMode(CLK, OUTPUT);
@@ -148,6 +152,7 @@ if (Ready){
   {
     val = AFE_Reg_Read(LED2);
     //    Ready = 1;
+    Serial.print("DATA,TIME,TIMER,");
     Serial.println(val);
     //Serial.print("Time:");Serial.println(counter);
     delay(10);
@@ -433,7 +438,7 @@ void AFEinitRegisters(void)
   reg[30].addr = 0x20;
   reg[30].val = 0x008025; //0x008003
   reg[31].addr = 0x21;
-  reg[31].val = 0x000112; //0x000125;//0x000003 //bit8: PROG_TG_EN
+  reg[31].val = 0x000125; //0x000125;//0x000003 //bit8: PROG_TG_EN
   reg[32].addr = 0x22;
   reg[32].val = 0x000100; //ILED2 = 32
   reg[33].addr = 0x23;
