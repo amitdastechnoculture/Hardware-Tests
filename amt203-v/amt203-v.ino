@@ -6,7 +6,7 @@ uint16_t ABSposition = 0;
 uint16_t ABSposition_last = 0;
 uint8_t temp[2];    //This one.
  
-float deg = 0.00;9*
+float deg = 0.00;
  
 void setup()
 {
@@ -19,7 +19,7 @@ void setup()
   Serial.begin(115200);
   Serial.println("starting");
   Serial.flush();
-//  delay(2000);
+  delay(2000);
   SPI.end();
  
 }
