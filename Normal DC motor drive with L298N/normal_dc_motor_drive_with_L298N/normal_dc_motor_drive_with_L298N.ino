@@ -1,9 +1,9 @@
-const int IN1 = PB7;
-const int IN2 = PB6;
-const int IN3 = PB5;
-const int IN4 = PB13;
-const int ENA = PB14;
-const int ENB = PB12;
+const int IN1 = 8;
+const int IN2 = 9;
+const int IN3 = 11;
+const int IN4 = 12;
+const int ENA = 7;
+const int ENB = 10;
 
 
 void setup() {
