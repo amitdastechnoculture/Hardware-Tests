@@ -7,3 +7,5 @@ all:
 
 upload:
 	$(CC) upload ./$(FILE)
+
+docs:
