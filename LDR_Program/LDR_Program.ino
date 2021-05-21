@@ -1,4 +1,4 @@
-const int LDR = A0;
+const int LDR = A11;
 
 int input_val = 0;
 
